@@ -25,11 +25,8 @@ public class GameDriver {
 				+ " code or you lose the game. Are you ready to play? (Y/N):");
 		
 		res = in.nextLine();
-		
-		if(res != "Y") {
-			
-		}
-		
+	
+		assertFalse(res.equals("Y"));
 		
 
 	}

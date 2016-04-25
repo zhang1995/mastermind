@@ -26,27 +26,27 @@ public class Codes {
 		switch (color[a]) {
 
 		case "Blue":
-			codes.add("Blue");
+			codes.add("B");
 			break;
 
 		case "Green":
-			codes.add("Green");
+			codes.add("G");
 			break;
 
 		case "Orange":
-			codes.add("Orange");
+			codes.add("O");
 			break;
 
 		case "Purple":
-			codes.add("Purple");
+			codes.add("P");
 			break;
 
 		case "Red":
-			codes.add("Red");
+			codes.add("R");
 			break;
 
 		case "Yellow":
-			codes.add("Yellow");
+			codes.add("Y");
 			break;
 
 		}

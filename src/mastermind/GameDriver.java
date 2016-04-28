@@ -1,10 +1,11 @@
 package mastermind;
 
+import java.awt.Graphics;
 import java.util.Scanner;
 
 import javax.swing.*;
 
-public class GameDriver extends JFrame {
+public class GameDriver {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -13,16 +14,22 @@ public class GameDriver extends JFrame {
 		int start = Ready_Play();
 
 		// the computer will generate a random codes
-		Codes code = new Codes();
+		Codes code;
 		while (start == JOptionPane.YES_OPTION) {
 			//creates a GUI for the game using swing? or applet?
 			new MasterMind_GUI().setVisible(true);
+			
+			//get the secert code
+			code = new Codes();
+			
+			//draw the unknow pegs as ? in the gui
+			
 			// ask the user to input guesses
 			int guess_left = 12;
 			String guess_code;
 			while (guess_left > 0) {
 				guess_code = Input_Guess(guess_left);
-
+				
 				if (ParseGuess(guess_code)) {
 					Pegs_Result peg = new Pegs_Result();
 					peg.Set_Result(code, guess_code);
@@ -45,13 +52,6 @@ public class GameDriver extends JFrame {
 	 * 
 	 */
 	public static int Ready_Play() {
-		/*
-		 * Scanner in = new Scanner(System.in); String res; System.out.println(
-		 * "You have 12 guesses to figure out the secret" +
-		 * " code or you lose the game. Are you ready to play? (Y/N):");
-		 * 
-		 * res = in.nextLine();
-		 */
 
 		return JOptionPane
 				.showConfirmDialog(null,

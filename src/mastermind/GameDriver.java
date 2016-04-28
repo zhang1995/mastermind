@@ -2,9 +2,6 @@ package mastermind;
 
 import java.util.Scanner;
 
-import javax.management.relation.RoleUnresolved;
-import javax.swing.*;
-
 public class GameDriver {
 
 	public static void main(String[] args) {

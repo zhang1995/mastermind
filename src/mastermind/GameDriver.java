@@ -1,36 +1,76 @@
 package mastermind;
 
+import java.awt.Color;
 import java.util.Scanner;
 
 public class GameDriver {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		// begin the game?
-
 		Ready_Play();
 		int guess_left = 12;
 
-		// the computer will generate a random codes
+		/**
+		 * generate a secret random codes
+		 */
 		Codes code = new Codes();
+
+		/**
+		 * ask to change the rule
+		 */
 		Scanner in = new Scanner(System.in);
-		System.out.print("Do you wang to change the rule?(Y/N)");
+		System.out.print("Do you wang to change the rule?(Y/N) ");
 		String res;
 		res = in.nextLine();
 		while (!res.equals("Y") && !res.equals("N")) {
-			System.out.println("Wrong Input");
+			System.out.print("Input unrecognize! Do you wang to change the rule? (Y/N) ");
+			res = in.nextLine();
 		}
+		
+		
+		/**
+		 * change the rule
+		 */
 		if (res.equals("Y")){
-			System.out.print("enter the guess chance:");
+			//change the maximum number of guesses
+			System.out.print("Current the maximum numer of guesses is " + guess_left + ".\n"
+					+ "Please enter the maximum number of guesses you want to change: ");
 			res=in.nextLine();
 			while(!res.matches("[0123456789]*")){
-				System.out.println("Wrong input, again! Please enter the guess chance:");
+				System.out.println("Input unrecognize! Please enter the maximum number of guesses you want to change: ");
 				res=in.nextLine();
 			}
 			guess_left = Integer.parseInt(res);
-			System.out.println("12 change to: "+ guess_left);
+			System.out.println("Confirmed! The maximum number of guesses is changed to: "+ guess_left + ".\n");
+			
+			
+			//change the number of pegs
+			System.out.print("Current number of pegs in the code is " + code.peg_num + ".\n"
+					+ "Please enter the number of pegs in the code you want to change: ");
+			res=in.nextLine();
+			while(!res.matches("[0123456789]*")){
+				System.out.println("Input unrecognize! Please enter the number of pegs in the code you want to change: ");
+				res=in.nextLine();
+			}
+			code.peg_num = Integer.parseInt(res);
+			System.out.println("Confirmed! The number of pegs in the code is changed to: "+ code.peg_num + ".\n");
+			
+			
+			//add new color
+			System.out.print("Current color of pegs in the code is" + code.getcolorlist() + ".\n"
+					+ "Please enter the number of pegs in the code you want to change: ");
+		}
+	
+		
+		code.newCodes();
+		for(String c : code.codes) {
+			System.out.println(c);
 		}
 		
+		
+		/**
+		 * start process
+		 */
 		String guess_code;
 		while (guess_left > 0) {
 			guess_code = Input_Guess(guess_left);

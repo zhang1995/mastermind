@@ -33,6 +33,10 @@ public class GameDriver extends JFrame {
 				}
 
 			}
+			start = JOptionPane
+					.showConfirmDialog(null,
+							"Would you like to play again?",
+							null, JOptionPane.YES_NO_OPTION);
 		}
 	}
 

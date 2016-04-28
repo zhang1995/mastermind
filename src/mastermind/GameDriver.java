@@ -3,20 +3,33 @@ package mastermind;
 import java.util.Scanner;
 
 import javax.swing.*;
+import java.applet.Applet;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener; 
 
-public class GameDriver extends JFrame {
+public class GameDriver extends Applet implements ActionListener {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	 Button okButton; 
+     Button wrongButton; 
+     TextField nameField; 
+     
+	public void main(Graphics g) {
 		// begin the game?
+		
+		setLayout(new FlowLayout()); 
+        okButton = new Button("Ready!"); 
+        wrongButton = new Button("Not Ready!"); 
+        nameField = new TextField("Type the number here",35); 
+        add(okButton); 
+        add(wrongButton); 
+        add(nameField); 
 
 		int start = Ready_Play();
 
 		// the computer will generate a random codes
 		Codes code = new Codes();
-		while (start == JOptionPane.YES_OPTION) {
-			//creates a GUI for the game using swing? or applet?
-			new MasterMind_GUI().setVisible(true);
+		while (start == JOptionPane.showConfirmDialog(null, "Would You Like to Save your Previous Note First?","Warning",JOptionPane.YES_NO_OPTION)) {
 			// ask the user to input guesses
 			int guess_left = 12;
 			String guess_code;
@@ -89,6 +102,12 @@ public class GameDriver extends JFrame {
 
 		return false;
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

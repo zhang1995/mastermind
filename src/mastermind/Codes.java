@@ -18,7 +18,6 @@ public class Codes {
 			GenerateCodes(a);
 			index += 1;
 		}
-
 	}
 
 	public void GenerateCodes(int a) {

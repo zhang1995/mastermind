@@ -1,62 +1,133 @@
 package mastermind;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class MasterMind_GUI extends JFrame implements ActionListener{
-	
-	private String[] colors = {" ","Red", "Blue", "Green", "Purple", "Yellow", "Orange"};
-	JComboBox code_1, code_2, code_3, code_4; 
+public class MasterMind_GUI extends JFrame implements ActionListener {
+
+	private String[] colors = { " ", "Red", "Blue", "Green", "Purple", "Yellow", "Orange" };
+	JComboBox<String> code_1, code_2, code_3, code_4;
 	JButton check;
+	JTextField g_num;
+	JLabel g_str;
+
+	static int guess_left = 12;
+	Codes code;
+
 	public MasterMind_GUI() {
 		super("MasterMind");
 		setSize(365, 500);
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		
-		//creates 4 combobox contains all six color
+		code = new Codes();
+		// creates 4 combobox contains all six color
 		code_1 = new JComboBox(colors);
 		code_2 = new JComboBox(colors);
 		code_3 = new JComboBox(colors);
 		code_4 = new JComboBox(colors);
-		code_1.setBounds(3,441,65,26);
-		code_2.setBounds(71,441,65,26);
-		code_3.setBounds(139,441,65,26);
-		code_4.setBounds(207,441,65,26);
+		code_1.setBounds(3, 441, 65, 26);
+		code_2.setBounds(71, 441, 65, 26);
+		code_3.setBounds(139, 441, 65, 26);
+		code_4.setBounds(207, 441, 65, 26);
 		add(code_1);
 		add(code_2);
 		add(code_3);
 		add(code_4);
-		
-		//add a button to submit guesses
+
+		// add the guess left label
+		g_str = new JLabel("Guess Left: ");
+		g_str.setForeground(Color.RED);
+		g_str.setFont(new Font("Time Roman", Font.BOLD, 12));
+		g_str.setBounds(3, 3, 70, 30);
+		add(g_str);
+
+		// add the guess text field
+		g_num = new JTextField();
+		g_num.setBounds(76, 3, 30, 30);
+		g_num.setEnabled(false);
+		g_num.setText(Integer.toString(guess_left));
+		add(g_num);
+
+		// add a button to submit guesses
 		setLayout(new BorderLayout());
 		JPanel bt = new JPanel();
 		bt.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		check = new JButton("Check");
-		//b.setSize(d);
+		// b.setSize(d);
 		bt.add(check);
 		add(bt, BorderLayout.SOUTH);
-		
-		//set a listener for ckeck
+
+		// set a listener for ckeck
 		check.addActionListener(this);
+
+		Draw object = new Draw();
+		add(object);
+		object.drawing();
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		code_1.getSelectedItem();
-	
-		
+
+		String guess = Get_Guess();
+		boolean valid = ParseGuess(guess);
+		if (valid) {
+			
+			//reduce the guess number by 1
+			guess_left -= 1;
+			g_num.setText(Integer.toString(guess_left));
+			
+			
+		} else {
+			JOptionPane.showMessageDialog(null, "Invalid Guess");
+		}
+
 	}
-	
-	
-	
+
+	/*
+	 * the method will get the guess from the comboboxes
+	 * 
+	 */
+	public String Get_Guess() {
+
+		String guess;
+		guess = code_1.getSelectedItem().toString().substring(0, 1);
+		guess += code_2.getSelectedItem().toString().substring(0, 1);
+		guess += code_3.getSelectedItem().toString().substring(0, 1);
+		guess += code_4.getSelectedItem().toString().substring(0, 1);
+
+		return guess;
+
+	}
+
+	/*
+	 * determine if the guess is valid
+	 * 
+	 */
+	public static boolean ParseGuess(String guess) {
+
+		if (guess.length() == 4) {
+			boolean valid = guess.matches("[RBGPOY]*");
+			if (valid) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
 }

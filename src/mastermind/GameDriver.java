@@ -2,22 +2,25 @@ package mastermind;
 
 import java.util.Scanner;
 
+import javax.management.relation.RoleUnresolved;
 import javax.swing.*;
 
-public class GameDriver extends JFrame {
+public class GameDriver {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		// begin the game?
 
-		int start = Ready_Play();
+		Ready_Play();
 
 		// the computer will generate a random codes
 		Codes code = new Codes();
-		while (start == JOptionPane.YES_OPTION) {
-			//creates a GUI for the game using swing? or applet?
-			new MasterMind_GUI().setVisible(true);
-			// ask the user to input guesses
+		Scanner in = new Scanner(System.in);
+		System.out.print("Do you wang to change the rule?(Y/N)");
+		String res;
+		res = in.nextLine();
+		while (!res.equals("Y") && !res.equals("N")) {
+			System.out.println("Wrong Input");
 			int guess_left = 12;
 			String guess_code;
 			while (guess_left > 0) {
@@ -35,26 +38,20 @@ public class GameDriver extends JFrame {
 			}
 		}
 	}
-
-	/*
-	 * asked if the user is ready
-	 * 
-	 */
-	public static int Ready_Play() {
-		/*
-		 * Scanner in = new Scanner(System.in); String res; System.out.println(
-		 * "You have 12 guesses to figure out the secret" +
-		 * " code or you lose the game. Are you ready to play? (Y/N):");
-		 * 
-		 * res = in.nextLine();
-		 */
-
-		return JOptionPane
-				.showConfirmDialog(null,
-						"You have 12 guesses to figure out the secret"
-								+ " code or you lose the game. Are you ready to play? (Y/N):",
-						null, JOptionPane.YES_NO_OPTION);
-
+	
+	public static void Ready_Play(){
+		Scanner in = new Scanner(System.in);
+		String res;
+		System.out.println("You have 12 guesses to figure out the secret code or you lose the game.  Are you ready to play? (Y/N):");
+		res = in.nextLine();
+		while(!res.equals("Y") && !res.equals("N")){
+			System.out.println("Wrong input, again!");
+			res=in.nextLine();
+		}
+		if(res.equals("N")){
+			System.err.println("what the hack");
+			System.exit(0);
+		}
 	}
 
 	/*

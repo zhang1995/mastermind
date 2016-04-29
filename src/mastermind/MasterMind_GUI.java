@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,16 +17,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class MasterMind_GUI extends JFrame implements ActionListener {
-
-	private String[] colors = { " ", "Red", "Blue", "Green", "Purple", "Yellow", "Orange" };
+	
+	// " ",
+	private String[] colors = { "Red", "Blue", "Green", "Purple", "Yellow", "Orange" };
 	JComboBox<String> code_1, code_2, code_3, code_4;
 	JButton check;
 	JTextField g_num;
 	JLabel g_str;
+	Drawpegs circle;
 
 	static int guess_left = 12;
 	Codes code;
-
+	int x_c;
+	int y_c;
+	
 	public MasterMind_GUI() {
 		super("MasterMind");
 		setSize(365, 500);
@@ -70,32 +75,20 @@ public class MasterMind_GUI extends JFrame implements ActionListener {
 		add(bt, BorderLayout.SOUTH);
 
 		// set a listener for ckeck
-		check.addActionListener(this);
-
+		
 		Draw object = new Draw();
 		add(object);
 		object.drawing();
 
-	}
 
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
-
-		String guess = Get_Guess();
-		boolean valid = ParseGuess(guess);
-		if (valid) {
+		y_c = 400;
+		
+		check.addActionListener(this);
 			
-			//reduce the guess number by 1
-			guess_left -= 1;
-			g_num.setText(Integer.toString(guess_left));
-			
-			
-		} else {
-			JOptionPane.showMessageDialog(null, "Invalid Guess");
-		}
 
 	}
+
+	
 
 	/*
 	 * the method will get the guess from the comboboxes
@@ -130,4 +123,39 @@ public class MasterMind_GUI extends JFrame implements ActionListener {
 
 	}
 
+
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+
+		String guess = Get_Guess();
+		boolean valid = ParseGuess(guess);
+		if (valid) {
+			System.out.println(code.codes);
+			//reduce the guess number by 1
+			guess_left -= 1;
+			g_num.setText(Integer.toString(guess_left));
+			Pegs_Result res = new Pegs_Result();
+			res.Set_Result(code, guess);
+			circle = new Drawpegs(y_c, guess, res);
+			add(circle);
+			circle.drawing();
+			setVisible(true);
+			y_c -= 33;
+			if(res.black == 4) {
+				JOptionPane.showMessageDialog(null, "congratulations, you win!!");
+				guess_left = -1;
+			}
+			
+			
+		} else {
+			JOptionPane.showMessageDialog(null, "Invalid Guess");
+		}
+
+	}
+	
 }
+	
+
+

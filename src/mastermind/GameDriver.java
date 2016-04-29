@@ -2,9 +2,12 @@ package mastermind;
 
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
-public class GameDriver {
+public abstract class GameDriver implements ActionListener{
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -16,8 +19,7 @@ public class GameDriver {
 		//Codes code;
 		while (start == JOptionPane.YES_OPTION) {
 			// creates a GUI for the game using swing? or applet?
-			new MasterMind_GUI().setVisible(true);
-
+			new MasterMind_GUI().setVisible(true);;
 			// get the secert code
 			//code = new Codes();
 
@@ -47,5 +49,8 @@ public class GameDriver {
 						null, JOptionPane.YES_NO_OPTION);
 
 	}
+	
+	
+
 
 }

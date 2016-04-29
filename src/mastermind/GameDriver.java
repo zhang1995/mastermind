@@ -58,7 +58,9 @@ public class GameDriver {
 			
 			//add new color
 			System.out.print("Current color of pegs in the code is" + code.getcolorlist() + ".\n"
-					+ "Please enter the number of pegs in the code you want to change: ");
+					+ "Please enter color of pegs you want to add: ");
+			res=in.nextLine();
+			
 		}
 	
 		

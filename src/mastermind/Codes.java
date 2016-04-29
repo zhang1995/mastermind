@@ -34,6 +34,9 @@ public class Codes {
 		return str;
 	}
 	
+	public void addcolor(String str){
+		String newstr = str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
 	
 	public void setpegnum(int newnum){
 		this.peg_num = newnum;

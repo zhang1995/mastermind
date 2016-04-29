@@ -31,8 +31,9 @@ public abstract class GameDriver implements ActionListener{
 				
 
 			}
-			start = JOptionPane.showConfirmDialog(null, "Would you like to play again?", null,
+			start = JOptionPane.showConfirmDialog(null, "Would you like to play again?(not implemented)", null,
 					JOptionPane.YES_NO_OPTION);
+			
 		}
 	}
 

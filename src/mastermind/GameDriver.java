@@ -1,12 +1,25 @@
 package mastermind;
 
-import java.awt.Color;
 import java.util.Scanner;
 
 public class GameDriver {
-
+	static boolean winstatus = false;
+	static boolean newgame = true;
+	
 	public static void main(String[] args) {
-		// begin the game?
+		/**
+		 * check if start new game
+		 */
+		while (newgame) {
+			startgame();
+		}
+		System.err.println("See you!");
+		System.exit(0);
+	}
+	
+	
+	public static void startgame() {
+		newgame = false;
 		Ready_Play();
 		int guess_left = 12;
 
@@ -37,7 +50,7 @@ public class GameDriver {
 					+ "Please enter the maximum number of guesses you want to change: ");
 			res=in.nextLine();
 			while(!res.matches("[0123456789]*")){
-				System.out.println("Input unrecognize! Please enter the maximum number of guesses you want to change: ");
+				System.out.print("Input unrecognize! Please enter the maximum number of guesses you want to change: ");
 				res=in.nextLine();
 			}
 			guess_left = Integer.parseInt(res);
@@ -49,7 +62,7 @@ public class GameDriver {
 					+ "Please enter the number of pegs in the code you want to change: ");
 			res=in.nextLine();
 			while(!res.matches("[0123456789]*")){
-				System.out.println("Input unrecognize! Please enter the number of pegs in the code you want to change: ");
+				System.out.print("Input unrecognize! Please enter the number of pegs in the code you want to change: ");
 				res=in.nextLine();
 			}
 			code.peg_num = Integer.parseInt(res);
@@ -61,7 +74,7 @@ public class GameDriver {
 					+ "Please enter color of pegs you want to add: ");
 			res=in.nextLine();
 			while(!res.matches("[A-Za-z]*") || !code.checkFirstLetter(res)){
-				System.out.println("Input unrecognize or color already exist! Please enter color of pegs you want to add: ");
+				System.out.print("Input unrecognize or color already exist! Please enter color of pegs you want to add: ");
 				res=in.nextLine();
 			}
 			code.addcolor(res);
@@ -72,27 +85,50 @@ public class GameDriver {
 		 * generate the answer and display
 		 */
 		code.newCodes();
-		for(String c : code.codes) {
+		/*for(String c : code.codes) {
 			System.out.println(c);
-		}
+		}*/
 		
 		
 		/**
-		 * start process
+		 * start game process
 		 */
 		String guess_code;
-		while (guess_left > 0) {
+		while (guess_left > 0 && winstatus == false) {
 			guess_code = Input_Guess(guess_left);
-
 			if (ParseGuess(code, guess_code)) {
 				Pegs_Result peg = new Pegs_Result();
 				peg.Set_Result(code, guess_code);
-				System.out.printf("White peg: %d\nBlack peg: %d\n", peg.white, peg.black);
+				System.out.printf("--->Result: White peg: %d Black peg: %d\n\n", peg.white, peg.black);
 				guess_left -= 1;
+				if(peg.black == code.peg_num){
+					winstatus = true;
+				}
 			} else {
 				System.out.println("INVALID GUESS");
 			}
-
+		}
+		if (winstatus == true) {
+			System.out.println("You win !!");
+		}
+		else if (guess_left == 0 && winstatus == false) {
+			System.out.println("You have used all the chance, you lost !!");
+		}
+		
+		/**
+		 * ask to start a new game
+		 */
+		System.out.print("Are you ready for another game (Y/N): ");
+		res = in.nextLine();
+		while (!res.equals("Y") && !res.equals("N")) {
+			System.out.print("Input unrecognize! Are you ready for another game (Y/N): ");
+			res = in.nextLine();
+		}
+		if (res.equals("Y")){
+			newgame = true;
+		}
+		else{
+			newgame = false;
 		}
 	}
 	
@@ -110,7 +146,7 @@ public class GameDriver {
 				+ "When entering guesses you only need to enter the first character of each color as a capital letter.\n");
 		Scanner in = new Scanner(System.in);
 		String res;
-		System.out.print("You have 12 guesses to figure out the secret code or you lose the game.  Are you ready to play? (Y/N):");
+		System.out.print("You have 12 guesses to figure out the secret code or you lose the game. Are you ready to play? (Y/N):");
 		res = in.nextLine();
 		while(!res.equals("Y") && !res.equals("N")){
 			System.out.println("Wrong input, again!");
@@ -122,19 +158,24 @@ public class GameDriver {
 		}
 	}
 
-	
+	/**
+	 * print number of guess left
+	 * @param guess_left
+	 * @return
+	 */
 	public static String Input_Guess(int guess_left) {
 		Scanner in = new Scanner(System.in);
 		System.out.printf("You have %d guesses left.\n" + "What is your next guess?\n"
 				+ "Type in the characters for your guess and press enter. \n" + "Enter guess: ", guess_left);
-
 		return in.nextLine();
 
 	}
 
-	/*
+	/**
 	 * determine if the guess is valid
-	 * 
+	 * @param code
+	 * @param guess
+	 * @return
 	 */
 	public static boolean ParseGuess(Codes code, String guess) {
 
@@ -144,7 +185,6 @@ public class GameDriver {
 				return true;
 			}
 		}
-
 		return false;
 
 	}

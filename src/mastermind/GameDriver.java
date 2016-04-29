@@ -60,10 +60,17 @@ public class GameDriver {
 			System.out.print("Current color of pegs in the code is" + code.getcolorlist() + ".\n"
 					+ "Please enter color of pegs you want to add: ");
 			res=in.nextLine();
-			
+			while(!res.matches("[A-Za-z]*") || !code.checkFirstLetter(res)){
+				System.out.println("Input unrecognize or color already exist! Please enter color of pegs you want to add: ");
+				res=in.nextLine();
+			}
+			code.addcolor(res);
+			System.out.println("Confirmed! New color of pegs in the code is"+ code.getcolorlist() + ".\n");
 		}
 	
-		
+		/**
+		 * generate the answer and display
+		 */
 		code.newCodes();
 		for(String c : code.codes) {
 			System.out.println(c);
@@ -77,7 +84,7 @@ public class GameDriver {
 		while (guess_left > 0) {
 			guess_code = Input_Guess(guess_left);
 
-			if (ParseGuess(guess_code)) {
+			if (ParseGuess(code, guess_code)) {
 				Pegs_Result peg = new Pegs_Result();
 				peg.Set_Result(code, guess_code);
 				System.out.printf("White peg: %d\nBlack peg: %d\n", peg.white, peg.black);
@@ -113,15 +120,8 @@ public class GameDriver {
 			System.err.println("what the hack");
 			System.exit(0);
 		}
-		else{
-					}
 	}
-	
-	public static boolean YorNcheck(String ans){
-		
-		return false;
-		
-	}
+
 	
 	public static String Input_Guess(int guess_left) {
 		Scanner in = new Scanner(System.in);
@@ -136,10 +136,10 @@ public class GameDriver {
 	 * determine if the guess is valid
 	 * 
 	 */
-	public static boolean ParseGuess(String guess) {
+	public static boolean ParseGuess(Codes code, String guess) {
 
-		if (guess.length() == 4) {
-			boolean valid = guess.matches("[RBGPOY]*");
+		if (guess.length() == code.peg_num) {
+			boolean valid = Codes.checkguessvalid(guess);
 			if (valid) {
 				return true;
 			}
